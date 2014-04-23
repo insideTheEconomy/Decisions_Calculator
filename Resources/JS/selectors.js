@@ -10,15 +10,44 @@ var scenario;
 
 
 $("#attractLoop").click(function(e) {
-	$("#attractLoop").slideUp();
+	//$("#attractLoop").slideUp();
+	$( "#attractLoop" ).tween({
+	   opacity:{
+	      start: 100,
+	      stop: 0,
+	      time: 0,
+	      duration: 0.4,
+	      effect:'easeInOut',
+		  onStop: function(){
+			$(".scenarioSelectBtn").each( function( i, v ) {
+			  	$( this ).tween({
+				   opacity:{
+				      start: 0,
+				      stop: 100,
+				      time: i/2,
+				      duration: 0.25,
+				      effect:'easeInOut'
+				   },
+				   transform:{
+				      start: 'rotate(0deg) scale( 0.1 )',
+				      stop: 'rotate(720deg) scale( 1 )',
+				      time: i/2,
+				      duration: 1,
+				      effect:'easeInOut'
+				   }
+				}).play();
+			});
+		   }
+	   }
+	}).play();
+	
+	$("#attractLoop").slideUp(500);
+	
 	console.log("clicked");
 })
 
-
-
 $(".scenarioSelectBtn").click(function(e) {
 	scenario = $(this).attr("category");
-	console.log(scenario);
 	$("#screenContainer").slideUp( 500, function() {
 		loadScenario();
 	  });
@@ -31,6 +60,7 @@ var loadScenario = function() {
 		case "game":
 			console.log("loadScenario game");
 			$(".title").empty().append("Save for a Game System");
+			
 			break;
 			
 		case "car":
